@@ -38,12 +38,15 @@ public class HelloApplication extends Application {
     }
 
     private static void moveToTheRight(Button[] buttons) {
+
+
         for (Button button : buttons) {
             button.setLayoutX(button.getLayoutX() + STEP);
         }
     }
 
     private static void moveToTheLeft(Button[] buttons) {
+
         for (Button button : buttons) {
             button.setLayoutX(button.getLayoutX() - STEP);
         }
