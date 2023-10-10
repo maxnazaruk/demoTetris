@@ -78,6 +78,7 @@ public class HelloApplication extends Application {
     public static Button[] getSElemenet() {
         Button[] sElement = new Button[4];
         sElement[0] = new Button();
+
         sElement[0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
         sElement[0].setLayoutX(BUTTON_START_AXIS);
         sElement[0].setLayoutY(BUTTON_START_AYIS);
