@@ -88,7 +88,7 @@ public class HelloApplication extends Application {
 
         for (int i = 1; i < 2; i++) {
             int tmp0 = matrix[i][matrix.length - 1 - i];
-            int tmp1 = matrix[matrix.length - 1 - i][matrix.length - 1 - i];
+            int tmp1 = matrix[matrix.length - 1 - i][matrix.length - 1  - i];
             int tmp2 = matrix[matrix.length - 1 - i][i];
 
             matrix[i][matrix.length - 1 - i] = matrix[i][i];
@@ -259,6 +259,28 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    // TODO: in this method you are mixing rendering with "business logic". A better approach
+    // would be to calculate all the X/Y coordinates automiatcally, and not manually as you do here.
+    // Let's refactor it next way:
+    //   1. Introduce a dedicated class with Tetrominos (a piece from tetris)
+    //   2. Create the same 5 methods
+    //   3. Make each method return boolean[][]
+    //       For example:
+    //
+    //      [0][1][0]
+    //      [1][1][1]
+    //
+    //      S-element
+    //      [1][1][0]
+    //      [0][1][1]
+    //
+    //      Reverse-S-element
+    //      [0][1][1]
+    //      [1][1][0]
+    //
+    //   4. In this class write a method that accepts boolean[][] and returns buttons[][].
+    // Keep the rest of code as is, using Buttons[].
 
     public static Button[][] getSElemenet() {
         Button[][] sElement = new Button[3][3];
@@ -671,7 +693,7 @@ public class HelloApplication extends Application {
                 }
             }
         }
-        for (int i = 0; i < buttons.length; i++) {
+        for (int i = 0; i  < buttons.length; i++) {
             if (buttons[i].getLayoutY() == maxY) {
                 buttons[i].setText("1");
             } else {
@@ -779,6 +801,9 @@ public class HelloApplication extends Application {
         }
     }
 
+    // This method has both setup and a button loop. It's better to separate setup
+    // from the rendering loop, so it's easier to maintain.
+    // TODO: move the keyframe loop to a dedicated method.
     @Override
     public void start(Stage primaryStage) {
         root = new Pane();
@@ -842,11 +867,10 @@ public class HelloApplication extends Application {
         timeline.getKeyFrames().add(keyFrame);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+
         for (Button[] button : buttons.get(buttons.size() - 1)) {
             root.getChildren().addAll(button);
         }
-
-
 
 
         Label score = new Label();
@@ -949,6 +973,9 @@ public class HelloApplication extends Application {
     }
 
     public static Button[][] getNewElement() {
+        //TODO: If you have `elements` array, you can just array to lookup the selected option:
+        // int index = random.nextInt(elements.size())
+        // return elements[index];
         switch (random.nextInt(elements.size())) {
             case 0:
                 return getSElemenet();
