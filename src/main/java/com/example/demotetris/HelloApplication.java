@@ -1,5 +1,6 @@
 package com.example.demotetris;
 
+import com.example.demotetris.elements.Tetrominos;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -16,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,8 +41,8 @@ public class HelloApplication extends Application {
     public static double speed = 1;
     private static final int SCENE_WIDTH = 800;
     private static final int SCENE_HEIGHT = 800;
-    private static final int BUTTON_WIDTH = 30;
-    private static final int BUTTON_HEIGHT = 30;
+    public static final int BUTTON_WIDTH = 30;
+    public static final int BUTTON_HEIGHT = 30;
     private static final List<Button> bottomLine = new ArrayList<>();
     private static final List<Button> removeLine = new ArrayList<>();
     private static int[][] matrix = {{0, 0, 0, 0},
@@ -59,22 +61,12 @@ public class HelloApplication extends Application {
     Button buttonLower = new Button();
     private Pane root;
     private Label timeLabel;
-
     Label points = new Label();
 
     private static void rotateElement(Button[][] buttons) {
         boolean left = false;
         boolean right = false;
-        /*for (int i = 0; i < matrix.length; i++) {
-            int tmp0 = matrix[i][matrix.length - 1];
-            int tmp1 = matrix[matrix.length - 1][matrix.length - 1 - i];
-            int tmp2 = matrix[matrix.length - 1 - i][0];
 
-            matrix[i][matrix.length - 1] = matrix[0][i];
-            matrix[matrix.length - 1][matrix.length - 1 - i] = tmp0;
-            matrix[matrix.length - 1 - i][0] = tmp1;
-            matrix[0][i] = tmp2;
-        }*/
         for (int i = 0; i < matrix.length; i++) {
             int tmp0 = matrix[i][matrix.length - 1];
             int tmp1 = matrix[matrix.length - 1][matrix.length - 1 - i];
@@ -88,7 +80,7 @@ public class HelloApplication extends Application {
 
         for (int i = 1; i < 2; i++) {
             int tmp0 = matrix[i][matrix.length - 1 - i];
-            int tmp1 = matrix[matrix.length - 1 - i][matrix.length - 1  - i];
+            int tmp1 = matrix[matrix.length - 1 - i][matrix.length - 1 - i];
             int tmp2 = matrix[matrix.length - 1 - i][i];
 
             matrix[i][matrix.length - 1 - i] = matrix[i][i];
@@ -685,44 +677,6 @@ public class HelloApplication extends Application {
     }
 
     public static void getLowerElements(Button[][] buttons) {
-       /* double maxY = 0;
-        for (int i = 0; i < buttons.length; i++) {
-            for (int j = 0; j < buttons.length; j++) {
-                if (buttons[i].getLayoutY() > buttons[j].getLayoutY()) {
-                    maxY = buttons[i].getLayoutY();
-                }
-            }
-        }
-        for (int i = 0; i  < buttons.length; i++) {
-            if (buttons[i].getLayoutY() == maxY) {
-                buttons[i].setText("1");
-            } else {
-                buttons[i].setText("");
-            }
-        }
-        boolean exist = false;
-        for (int i = 0; i < buttons.length; i++) {
-            exist = false;
-            for (int j = 0; j < buttons.length; j++) {
-                if (buttons[i].getLayoutY() + STEP == buttons[j].getLayoutY() && buttons[i].getLayoutX() == buttons[j].getLayoutX()) {
-                    exist = true;
-                }
-            }
-            if (!exist) {
-                buttons[i].setText("1");
-            }
-        }
-
-        for (int i = 0; i < buttons.length; i++) {
-            for (int j = 0; j < buttons.length; j++) {
-                if (buttons[i].getText().equalsIgnoreCase("1") && buttons[j].getText().equalsIgnoreCase("")) {
-                    Button button = buttons[j];
-                    buttons[j] = buttons[i];
-                    buttons[i] = button;
-                }
-            }
-        }*/
-
         for (Button button[] : buttons) {
             for (Button button1 : button) {
                 if (button1.getStyle().equalsIgnoreCase(BUTTON_STYLE)) {
@@ -775,15 +729,6 @@ public class HelloApplication extends Application {
     }
 
     public static void getTopLine(Button[][] buttons) {
-       /* for (int i = 0; i < buttons.length; i++) {
-            for (int j = 0; j < buttons.length; j++) {
-                if (buttons[i].getLayoutY() < buttons[j].getLayoutY()) {
-                    buttons[i].setText("2");
-                    buttons[j].setText("");
-                }
-            }
-        }*/
-
         for (Button button[] : buttons) {
             for (Button button1 : button) {
                 if (button1.getStyle().equalsIgnoreCase(BUTTON_STYLE)) {
@@ -801,9 +746,6 @@ public class HelloApplication extends Application {
         }
     }
 
-    // This method has both setup and a button loop. It's better to separate setup
-    // from the rendering loop, so it's easier to maintain.
-    // TODO: move the keyframe loop to a dedicated method.
     @Override
     public void start(Stage primaryStage) {
         root = new Pane();
@@ -829,13 +771,34 @@ public class HelloApplication extends Application {
         timeLabel.setLayoutY(20);
 
         getLowerElements(buttons.get(buttons.size() - 1));
-        Timeline timeline = new Timeline();
 
         Button cheats = new Button();
         cheats.setPrefWidth(300);
         cheats.setStyle(EMPTY_BUTTON_STYLE);
         cheats.setLayoutX(350);
         cheats.setLayoutY(BUTTON_START_AYIS + STEP);
+        this.renderingGameFlow(cheats);
+
+        for (Button[] button : buttons.get(buttons.size() - 1)) {
+            root.getChildren().addAll(button);
+        }
+
+        Label score = new Label();
+        score.setText("Score: ");
+        score.setStyle(SCORE);
+        score.setLayoutX(350);
+        score.setLayoutY(BUTTON_START_AYIS);
+
+        points.setText(scorePoints + "");
+        points.setLayoutX(420);
+        points.setLayoutY(BUTTON_START_AYIS);
+        points.setStyle(SCORE);
+        root.getChildren().addAll(leftLine, rightLine, bottomLine, topLine, score, points, cheats);
+        primaryStage.show();
+    }
+
+    private void renderingGameFlow(Button cheats) {
+        Timeline timeline = new Timeline();
 
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.3), event -> {
             root.setOnKeyPressed(keyEvent -> {
@@ -850,42 +813,21 @@ public class HelloApplication extends Application {
                 }
             });
 
-           cheats.setOnAction(eventCheater -> {
-               root.getChildren().removeAll(HelloApplication.bottomLine);
-               HelloApplication.bottomLine.clear();
-               scorePoints += 1000;
-               points.setText(scorePoints + "");
-               root.getChildren().remove(points);
-               root.getChildren().add(points);
-           });
+            cheats.setOnAction(eventCheater -> {
+                root.getChildren().removeAll(HelloApplication.bottomLine);
+                HelloApplication.bottomLine.clear();
+                scorePoints += 1000;
+                points.setText(scorePoints + "");
+                root.getChildren().remove(points);
+                root.getChildren().add(points);
+            });
             getLowerElements(buttons.get(buttons.size() - 1));
             updateContent(root);
-
         });
-
 
         timeline.getKeyFrames().add(keyFrame);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
-        for (Button[] button : buttons.get(buttons.size() - 1)) {
-            root.getChildren().addAll(button);
-        }
-
-
-        Label score = new Label();
-        score.setText("Score: ");
-        score.setStyle(SCORE);
-        score.setLayoutX(350);
-        score.setLayoutY(BUTTON_START_AYIS);
-
-
-        points.setText(scorePoints + "");
-        points.setLayoutX(420);
-        points.setLayoutY(BUTTON_START_AYIS);
-        points.setStyle(SCORE);
-        root.getChildren().addAll(leftLine, rightLine, bottomLine, topLine, score, points, cheats);
-        primaryStage.show();
     }
 
     private void updateContent(Pane root) {
@@ -921,8 +863,6 @@ public class HelloApplication extends Application {
         } else {
             moveOneStep(currentElement);
         }
-
-
     }
 
 
@@ -972,11 +912,17 @@ public class HelloApplication extends Application {
 
     }
 
-    public static Button[][] getNewElement() {
+    public static Button[][] getNewElement() throws InvocationTargetException, IllegalAccessException {
         //TODO: If you have `elements` array, you can just array to lookup the selected option:
         // int index = random.nextInt(elements.size())
         // return elements[index];
-        switch (random.nextInt(elements.size())) {
+
+        //NOTE: Provided list is using for elements count only. This approach doesn't work 'couse
+        // we need a new object each time element appears. Otherwise we will add an existing object to
+        // the pool.
+        /*Random random = new Random();
+        return elements.get(random.nextInt(elements.size()));*/
+        /*switch (random.nextInt(elements.size())) {
             case 0:
                 return getSElemenet();
             case 1:
@@ -991,6 +937,8 @@ public class HelloApplication extends Application {
                 return getStickElemenet();
             default:
                 return getSElemenet();
-        }
+        }*/
+        //return Tetrominos.getElementFullfillWithButtons(Tetrominos.getSElement());
+        return Tetrominos.getElementFullfillWithButtons(Tetrominos.class.getDeclaredMethods()[random.nextInt(Tetrominos.class.getDeclaredMethods().length)]);
     }
 }
