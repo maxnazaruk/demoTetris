@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -747,7 +748,7 @@ public class HelloApplication extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
         root = new Pane();
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         primaryStage.setScene(scene);
@@ -822,7 +823,13 @@ public class HelloApplication extends Application {
                 root.getChildren().add(points);
             });
             getLowerElements(buttons.get(buttons.size() - 1));
-            updateContent(root);
+            try {
+                updateContent(root);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         timeline.getKeyFrames().add(keyFrame);
@@ -830,7 +837,7 @@ public class HelloApplication extends Application {
         timeline.play();
     }
 
-    private void updateContent(Pane root) {
+    private void updateContent(Pane root) throws InvocationTargetException, IllegalAccessException {
         getLowerElements(buttons.get(buttons.size() - 1));
         Button[][] currentElement = buttons.get(buttons.size() - 1);
 
@@ -939,6 +946,6 @@ public class HelloApplication extends Application {
                 return getSElemenet();
         }*/
         //return Tetrominos.getElementFullfillWithButtons(Tetrominos.getSElement());
-        return Tetrominos.getElementFullfillWithButtons(Tetrominos.class.getDeclaredMethods()[random.nextInt(Tetrominos.class.getDeclaredMethods().length)]);
+        return Tetrominos.getElementFullfillWithButtons((boolean[][]) Tetrominos.class.getDeclaredMethods()[random.nextInt(Tetrominos.class.getDeclaredMethods().length - 1)].invoke(new Tetrominos()));
     }
 }
