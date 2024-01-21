@@ -8,19 +8,16 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -53,7 +50,7 @@ public class HelloApplication extends Application {
 
     public static final Random random = new Random();
 
-    private static List<Button[][]> elements = Arrays.asList(getSElemenet(), getLElement(), getFiveElement(), getPlaneElement(), getSquareElement(), getStickElemenet());
+    //private static List<Button[][]> elements = Arrays.asList(getSElemenet(), getLElement(), getFiveElement(), getPlaneElement(), getSquareElement(), getStickElemenet());
     public static boolean release = false;
     private final int count = 0;
     private final boolean bottom = false;
@@ -251,430 +248,6 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    // TODO: in this method you are mixing rendering with "business logic". A better approach
-    // would be to calculate all the X/Y coordinates automiatcally, and not manually as you do here.
-    // Let's refactor it next way:
-    //   1. Introduce a dedicated class with Tetrominos (a piece from tetris)
-    //   2. Create the same 5 methods
-    //   3. Make each method return boolean[][]
-    //       For example:
-    //
-    //      [0][1][0]
-    //      [1][1][1]
-    //
-    //      S-element
-    //      [1][1][0]
-    //      [0][1][1]
-    //
-    //      Reverse-S-element
-    //      [0][1][1]
-    //      [1][1][0]
-    //
-    //   4. In this class write a method that accepts boolean[][] and returns buttons[][].
-    // Keep the rest of code as is, using Buttons[].
-
-    public static Button[][] getSElemenet() {
-        Button[][] sElement = new Button[3][3];
-
-        sElement[0][0] = new Button();
-        sElement[0][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[0][0].setLayoutX(BUTTON_START_AXIS);
-        sElement[0][0].setLayoutY(BUTTON_START_AYIS - STEP);
-        sElement[0][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        sElement[0][1] = new Button();
-        sElement[0][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[0][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        sElement[0][1].setLayoutY(BUTTON_START_AYIS - STEP);
-        sElement[0][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        sElement[0][2] = new Button();
-        sElement[0][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[0][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        sElement[0][2].setLayoutY(BUTTON_START_AYIS - STEP);
-        sElement[0][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        sElement[1][0] = new Button();
-        sElement[1][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[1][0].setLayoutX(BUTTON_START_AXIS);
-        sElement[1][0].setLayoutY(BUTTON_START_AYIS);
-        sElement[1][0].setStyle(BUTTON_STYLE);
-
-        sElement[1][1] = new Button();
-        sElement[1][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[1][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        sElement[1][1].setLayoutY(BUTTON_START_AYIS);
-        sElement[1][1].setStyle(BUTTON_STYLE);
-
-        sElement[1][2] = new Button();
-        sElement[1][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[1][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        sElement[1][2].setLayoutY(BUTTON_START_AYIS);
-        sElement[1][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        sElement[2][0] = new Button();
-        sElement[2][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[2][0].setLayoutX(BUTTON_START_AXIS);
-        sElement[2][0].setLayoutY(BUTTON_START_AYIS + STEP);
-        sElement[2][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        sElement[2][1] = new Button();
-        sElement[2][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[2][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        sElement[2][1].setLayoutY(BUTTON_START_AYIS + STEP);
-        sElement[2][1].setStyle(BUTTON_STYLE);
-
-        sElement[2][2] = new Button();
-        sElement[2][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sElement[2][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        sElement[2][2].setLayoutY(BUTTON_START_AYIS + STEP);
-        sElement[2][2].setStyle(BUTTON_STYLE);
-
-        return sElement;
-    }
-
-    public static Button[][] getStickElemenet() {
-        Button[][] stickElement = new Button[4][4];
-
-        stickElement[0][0] = new Button();
-        stickElement[0][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[0][0].setLayoutX(BUTTON_START_AXIS - STEP);
-        stickElement[0][0].setLayoutY(BUTTON_START_AYIS - STEP);
-        stickElement[0][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[0][1] = new Button();
-        stickElement[0][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[0][1].setLayoutX(BUTTON_START_AXIS);
-        stickElement[0][1].setLayoutY(BUTTON_START_AYIS - STEP);
-        stickElement[0][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[0][2] = new Button();
-        stickElement[0][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[0][2].setLayoutX(BUTTON_START_AXIS + STEP);
-        stickElement[0][2].setLayoutY(BUTTON_START_AYIS - STEP);
-        stickElement[0][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[0][3] = new Button();
-        stickElement[0][3].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[0][3].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        stickElement[0][3].setLayoutY(BUTTON_START_AYIS - STEP);
-        stickElement[0][3].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[1][0] = new Button();
-        stickElement[1][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[1][0].setLayoutX(BUTTON_START_AXIS - STEP);
-        stickElement[1][0].setLayoutY(BUTTON_START_AYIS);
-        stickElement[1][0].setStyle(BUTTON_STYLE);
-
-        stickElement[1][1] = new Button();
-        stickElement[1][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[1][1].setLayoutX(BUTTON_START_AXIS);
-        stickElement[1][1].setLayoutY(BUTTON_START_AYIS);
-        stickElement[1][1].setStyle(BUTTON_STYLE);
-
-        stickElement[1][2] = new Button();
-        stickElement[1][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[1][2].setLayoutX(BUTTON_START_AXIS + STEP);
-        stickElement[1][2].setLayoutY(BUTTON_START_AYIS);
-        stickElement[1][2].setStyle(BUTTON_STYLE);
-
-        stickElement[1][3] = new Button();
-        stickElement[1][3].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[1][3].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        stickElement[1][3].setLayoutY(BUTTON_START_AYIS);
-        stickElement[1][3].setStyle(BUTTON_STYLE);
-
-        stickElement[2][0] = new Button();
-        stickElement[2][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[2][0].setLayoutX(BUTTON_START_AXIS - STEP);
-        stickElement[2][0].setLayoutY(BUTTON_START_AYIS + STEP);
-        stickElement[2][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[2][1] = new Button();
-        stickElement[2][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[2][1].setLayoutX(BUTTON_START_AXIS);
-        stickElement[2][1].setLayoutY(BUTTON_START_AYIS + STEP);
-        stickElement[2][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[2][2] = new Button();
-        stickElement[2][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[2][2].setLayoutX(BUTTON_START_AXIS + STEP);
-        stickElement[2][2].setLayoutY(BUTTON_START_AYIS + STEP);
-        stickElement[2][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[2][3] = new Button();
-        stickElement[2][3].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[2][3].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        stickElement[2][3].setLayoutY(BUTTON_START_AYIS + STEP);
-        stickElement[2][3].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[3][0] = new Button();
-        stickElement[3][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[3][0].setLayoutX(BUTTON_START_AXIS - STEP);
-        stickElement[3][0].setLayoutY(BUTTON_START_AYIS + STEP * 2);
-        stickElement[3][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[3][1] = new Button();
-        stickElement[3][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[3][1].setLayoutX(BUTTON_START_AXIS);
-        stickElement[3][1].setLayoutY(BUTTON_START_AYIS + STEP * 2);
-        stickElement[3][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[3][2] = new Button();
-        stickElement[3][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[3][2].setLayoutX(BUTTON_START_AXIS + STEP);
-        stickElement[3][2].setLayoutY(BUTTON_START_AYIS + STEP * 2);
-        stickElement[3][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        stickElement[3][3] = new Button();
-        stickElement[3][3].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        stickElement[3][3].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        stickElement[3][3].setLayoutY(BUTTON_START_AYIS + STEP * 2);
-        stickElement[3][3].setStyle(EMPTY_BUTTON_STYLE);
-
-        return stickElement;
-    }
-
-    public static Button[][] getLElement() {
-        Button[][] lElement = new Button[3][3];
-
-        lElement[0][0] = new Button();
-        lElement[0][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[0][0].setLayoutX(BUTTON_START_AXIS);
-        lElement[0][0].setLayoutY(BUTTON_START_AYIS - STEP);
-        lElement[0][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        lElement[0][1] = new Button();
-        lElement[0][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[0][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        lElement[0][1].setLayoutY(BUTTON_START_AYIS - STEP);
-        lElement[0][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        lElement[0][2] = new Button();
-        lElement[0][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[0][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        lElement[0][2].setLayoutY(BUTTON_START_AYIS - STEP);
-        lElement[0][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        lElement[1][0] = new Button();
-        lElement[1][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[1][0].setLayoutX(BUTTON_START_AXIS);
-        lElement[1][0].setLayoutY(BUTTON_START_AYIS);
-        lElement[1][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        lElement[1][1] = new Button();
-        lElement[1][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[1][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        lElement[1][1].setLayoutY(BUTTON_START_AYIS);
-        lElement[1][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        lElement[1][2] = new Button();
-        lElement[1][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[1][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        lElement[1][2].setLayoutY(BUTTON_START_AYIS);
-        lElement[1][2].setStyle(BUTTON_STYLE);
-
-        lElement[2][0] = new Button();
-        lElement[2][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[2][0].setLayoutX(BUTTON_START_AXIS);
-        lElement[2][0].setLayoutY(BUTTON_START_AYIS + STEP);
-        lElement[2][0].setStyle(BUTTON_STYLE);
-
-        lElement[2][1] = new Button();
-        lElement[2][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[2][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        lElement[2][1].setLayoutY(BUTTON_START_AYIS + STEP);
-        lElement[2][1].setStyle(BUTTON_STYLE);
-
-        lElement[2][2] = new Button();
-        lElement[2][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        lElement[2][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        lElement[2][2].setLayoutY(BUTTON_START_AYIS + STEP);
-        lElement[2][2].setStyle(BUTTON_STYLE);
-
-        return lElement;
-    }
-
-    public static Button[][] getPlaneElement() {
-        Button[][] pElement = new Button[3][3];
-
-        pElement[0][0] = new Button();
-        pElement[0][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[0][0].setLayoutX(BUTTON_START_AXIS);
-        pElement[0][0].setLayoutY(BUTTON_START_AYIS - STEP);
-        pElement[0][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        pElement[0][1] = new Button();
-        pElement[0][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[0][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        pElement[0][1].setLayoutY(BUTTON_START_AYIS - STEP);
-        pElement[0][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        pElement[0][2] = new Button();
-        pElement[0][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[0][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        pElement[0][2].setLayoutY(BUTTON_START_AYIS - STEP);
-        pElement[0][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        pElement[1][0] = new Button();
-        pElement[1][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[1][0].setLayoutX(BUTTON_START_AXIS);
-        pElement[1][0].setLayoutY(BUTTON_START_AYIS);
-        pElement[1][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        pElement[1][1] = new Button();
-        pElement[1][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[1][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        pElement[1][1].setLayoutY(BUTTON_START_AYIS);
-        pElement[1][1].setStyle(BUTTON_STYLE);
-
-        pElement[1][2] = new Button();
-        pElement[1][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[1][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        pElement[1][2].setLayoutY(BUTTON_START_AYIS);
-        pElement[1][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        pElement[2][0] = new Button();
-        pElement[2][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[2][0].setLayoutX(BUTTON_START_AXIS);
-        pElement[2][0].setLayoutY(BUTTON_START_AYIS + STEP);
-        pElement[2][0].setStyle(BUTTON_STYLE);
-
-        pElement[2][1] = new Button();
-        pElement[2][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[2][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        pElement[2][1].setLayoutY(BUTTON_START_AYIS + STEP);
-        pElement[2][1].setStyle(BUTTON_STYLE);
-
-        pElement[2][2] = new Button();
-        pElement[2][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        pElement[2][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        pElement[2][2].setLayoutY(BUTTON_START_AYIS + STEP);
-        pElement[2][2].setStyle(BUTTON_STYLE);
-
-        return pElement;
-    }
-
-    public static Button[][] getFiveElement() {
-        Button[][] fElement = new Button[3][3];
-
-        fElement[0][0] = new Button();
-        fElement[0][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[0][0].setLayoutX(BUTTON_START_AXIS);
-        fElement[0][0].setLayoutY(BUTTON_START_AYIS - STEP);
-        fElement[0][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        fElement[0][1] = new Button();
-        fElement[0][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[0][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        fElement[0][1].setLayoutY(BUTTON_START_AYIS - STEP);
-        fElement[0][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        fElement[0][2] = new Button();
-        fElement[0][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[0][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        fElement[0][2].setLayoutY(BUTTON_START_AYIS - STEP);
-        fElement[0][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        fElement[1][0] = new Button();
-        fElement[1][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[1][0].setLayoutX(BUTTON_START_AXIS);
-        fElement[1][0].setLayoutY(BUTTON_START_AYIS);
-        fElement[1][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        fElement[1][1] = new Button();
-        fElement[1][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[1][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        fElement[1][1].setLayoutY(BUTTON_START_AYIS);
-        fElement[1][1].setStyle(BUTTON_STYLE);
-
-        fElement[1][2] = new Button();
-        fElement[1][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[1][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        fElement[1][2].setLayoutY(BUTTON_START_AYIS);
-        fElement[1][2].setStyle(BUTTON_STYLE);
-
-        fElement[2][0] = new Button();
-        fElement[2][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[2][0].setLayoutX(BUTTON_START_AXIS);
-        fElement[2][0].setLayoutY(BUTTON_START_AYIS + STEP);
-        fElement[2][0].setStyle(BUTTON_STYLE);
-
-        fElement[2][1] = new Button();
-        fElement[2][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[2][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        fElement[2][1].setLayoutY(BUTTON_START_AYIS + STEP);
-        fElement[2][1].setStyle(BUTTON_STYLE);
-
-        fElement[2][2] = new Button();
-        fElement[2][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        fElement[2][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        fElement[2][2].setLayoutY(BUTTON_START_AYIS + STEP);
-        fElement[2][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        return fElement;
-    }
-
-    public static Button[][] getSquareElement() {
-        Button[][] sqElement = new Button[3][3];
-
-        sqElement[0][0] = new Button();
-        sqElement[0][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[0][0].setLayoutX(BUTTON_START_AXIS);
-        sqElement[0][0].setLayoutY(BUTTON_START_AYIS - STEP);
-        sqElement[0][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        sqElement[0][1] = new Button();
-        sqElement[0][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[0][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        sqElement[0][1].setLayoutY(BUTTON_START_AYIS - STEP);
-        sqElement[0][1].setStyle(EMPTY_BUTTON_STYLE);
-
-        sqElement[0][2] = new Button();
-        sqElement[0][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[0][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        sqElement[0][2].setLayoutY(BUTTON_START_AYIS - STEP);
-        sqElement[0][2].setStyle(EMPTY_BUTTON_STYLE);
-
-        sqElement[1][0] = new Button();
-        sqElement[1][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[1][0].setLayoutX(BUTTON_START_AXIS);
-        sqElement[1][0].setLayoutY(BUTTON_START_AYIS);
-        sqElement[1][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        sqElement[1][1] = new Button();
-        sqElement[1][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[1][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        sqElement[1][1].setLayoutY(BUTTON_START_AYIS);
-        sqElement[1][1].setStyle(BUTTON_STYLE);
-
-        sqElement[1][2] = new Button();
-        sqElement[1][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[1][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        sqElement[1][2].setLayoutY(BUTTON_START_AYIS);
-        sqElement[1][2].setStyle(BUTTON_STYLE);
-
-        sqElement[2][0] = new Button();
-        sqElement[2][0].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[2][0].setLayoutX(BUTTON_START_AXIS);
-        sqElement[2][0].setLayoutY(BUTTON_START_AYIS + STEP);
-        sqElement[2][0].setStyle(EMPTY_BUTTON_STYLE);
-
-        sqElement[2][1] = new Button();
-        sqElement[2][1].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[2][1].setLayoutX(BUTTON_START_AXIS + STEP);
-        sqElement[2][1].setLayoutY(BUTTON_START_AYIS + STEP);
-        sqElement[2][1].setStyle(BUTTON_STYLE);
-
-        sqElement[2][2] = new Button();
-        sqElement[2][2].setPrefSize(BUTTON_HEIGHT, BUTTON_WIDTH);
-        sqElement[2][2].setLayoutX(BUTTON_START_AXIS + STEP * 2);
-        sqElement[2][2].setLayoutY(BUTTON_START_AYIS + STEP);
-        sqElement[2][2].setStyle(BUTTON_STYLE);
-
-        return sqElement;
     }
 
     public static void getLowerElements(Button[][] buttons) {
@@ -910,7 +483,6 @@ public class HelloApplication extends Application {
     }
 
     private void shiftAllButtons(double line, Pane pane) {
-
         for (Node node : pane.getChildren()) {
             if (node instanceof Button && node.getLayoutY() < line) {
                 node.setLayoutY(node.getLayoutY() + STEP);
@@ -920,32 +492,15 @@ public class HelloApplication extends Application {
     }
 
     public static Button[][] getNewElement() throws InvocationTargetException, IllegalAccessException {
-        //TODO: If you have `elements` array, you can just array to lookup the selected option:
-        // int index = random.nextInt(elements.size())
-        // return elements[index];
+        //System.out.println(Tetrominos.class.getDeclaredMethods().length - 2);
+        //return Tetrominos.getElementFullfillWithButtons(Tetrominos.getStickElement());
+        //Method method = Tetrominos.class.getDeclaredMethods()[random.nextInt(Tetrominos.class.getDeclaredMethods().length - 2)];
+        for (int i = 0; i < 100; i++) {
+            int meth = random.nextInt(Tetrominos.class.getDeclaredMethods().length - 2);
+            System.out.println(meth);
+            System.out.println(Tetrominos.class.getDeclaredMethods()[meth].getName());
+        }
 
-        //NOTE: Provided list is using for elements count only. This approach doesn't work 'couse
-        // we need a new object each time element appears. Otherwise we will add an existing object to
-        // the pool.
-        /*Random random = new Random();
-        return elements.get(random.nextInt(elements.size()));*/
-        /*switch (random.nextInt(elements.size())) {
-            case 0:
-                return getSElemenet();
-            case 1:
-                return getLElement();
-            case 2:
-                return getFiveElement();
-            case 3:
-                return getPlaneElement();
-            case 4:
-                return getSquareElement();
-            case 5:
-                return getStickElemenet();
-            default:
-                return getSElemenet();
-        }*/
-        //return Tetrominos.getElementFullfillWithButtons(Tetrominos.getSElement());
-        return Tetrominos.getElementFullfillWithButtons((boolean[][]) Tetrominos.class.getDeclaredMethods()[random.nextInt(Tetrominos.class.getDeclaredMethods().length - 1)].invoke(new Tetrominos()));
+        return Tetrominos.getElementFullfillWithButtons((boolean[][]) Tetrominos.class.getDeclaredMethods()[random.nextInt(Tetrominos.class.getDeclaredMethods().length - 1) + 1].invoke(new Tetrominos()));
     }
 }

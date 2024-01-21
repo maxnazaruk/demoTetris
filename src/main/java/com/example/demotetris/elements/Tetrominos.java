@@ -24,9 +24,12 @@ public class Tetrominos {
     public static boolean[][] getSquareElement() {
         return new boolean[][]{{false, false, false}, {false, true, true}, {false, true, true}};
     }
+    public static boolean[][] getStickElement() {
+        return new boolean[][]{{false, false, false, false}, {false, false, false, false}, {true, true, true, true}, {false, false, false, false}};
+    }
 
     public static Button[][] getElementFullfillWithButtons(boolean[][] booleans) {
-        Button[][] buttons = new Button[3][3];
+        Button[][] buttons = new Button[booleans.length][booleans.length];
 
         for (int i = 0; i < booleans.length; i++) {
             for (int j = 0; j < booleans[i].length; j++) {
