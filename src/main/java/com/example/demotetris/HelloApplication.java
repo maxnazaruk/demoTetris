@@ -492,15 +492,6 @@ public class HelloApplication extends Application {
     }
 
     public static Button[][] getNewElement() throws InvocationTargetException, IllegalAccessException {
-        //System.out.println(Tetrominos.class.getDeclaredMethods().length - 2);
-        //return Tetrominos.getElementFullfillWithButtons(Tetrominos.getStickElement());
-        //Method method = Tetrominos.class.getDeclaredMethods()[random.nextInt(Tetrominos.class.getDeclaredMethods().length - 2)];
-        for (int i = 0; i < 100; i++) {
-            int meth = random.nextInt(Tetrominos.class.getDeclaredMethods().length - 2);
-            System.out.println(meth);
-            System.out.println(Tetrominos.class.getDeclaredMethods()[meth].getName());
-        }
-
         return Tetrominos.getElementFullfillWithButtons((boolean[][]) Tetrominos.class.getDeclaredMethods()[random.nextInt(Tetrominos.class.getDeclaredMethods().length - 1) + 1].invoke(new Tetrominos()));
     }
 }
