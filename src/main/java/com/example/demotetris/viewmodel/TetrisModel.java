@@ -37,39 +37,4 @@ public class TetrisModel {
     void nextStep(boolean accelarate) {
 
     }
-
-    /**
-     * Returns true if game is over.
-     */
-    boolean hasLost() {
-
-    }
-
-    /**
-     * Returns score - how many squares were eliminated.
-     */
-    int getScore() {
-
-    }
-
-    /**
-     * Returns current active tetrimono
-     */
-    Tetrimono getCurrentTetrimono() {
-
-    }
-
-    /**
-     * Returns next tetrimonos in the queue.
-     */
-    Tetrimono[] getNextTetrimonos(int size) {
-
-    }
-
-    /**
-     * Returns full tetris board
-     */
-    TetrisState getCurrentState() {
-
-    }
 }
